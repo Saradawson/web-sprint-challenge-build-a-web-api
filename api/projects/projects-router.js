@@ -27,6 +27,14 @@ router.post('/', validateProject, (req, res, next) => {
             .catch(next)
 })
 
+router.put('/:id', validateProjectId, validateProject, (req, res, next) => {
+    Projects.update(req.params.id, req.body)
+            .then(() => {
+                res.json(req.project)
+            })
+            .catch(next)
+})
+
 router.use((error, req, res, next) => { //eslint-disable-line
     res.status(error.status || 500).json({
         message: error.message,
