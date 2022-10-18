@@ -9,7 +9,7 @@ async function validateProjectId(req, res, next) {
                 message: `User with id: ${req.params.id} not found`
             })
         }else {
-            req.porject = project;
+            req.project = project;
             next();
         }
     }catch(err){
