@@ -1,6 +1,7 @@
 const express = require('express');
 const { 
-    validateProjectId
+    validateProjectId,
+    validateProject
 } = require('./projects-middleware');
 const Projects = require('./projects-model');
 
@@ -16,6 +17,14 @@ router.get('/', (req, res, next) => {
 
 router.get('/:id', validateProjectId, (req, res) =>{
     res.json(req.project)
+})
+
+router.post('/', validateProject, (req, res, next) => {
+    Projects.insert(req.project)
+            .then(newProject => {
+                res.status(201).json(newProject)
+            })
+            .catch(next)
 })
 
 router.use((error, req, res, next) => { //eslint-disable-line
