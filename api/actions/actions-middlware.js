@@ -18,6 +18,19 @@ async function validateActionsId(req, res, next) {
     }
 }
 
+function validateAction(req, res, next) {
+    const { project_id, notes, description } = req.body;
+    if(!project_id || !notes || !description){
+        res.status(400).json({
+            message: 'Missing required fields'
+        })
+    }else{
+        req.action = req.body;
+        next();
+    }
+}
+
 module.exports = {
-    validateActionsId
+    validateActionsId,
+    validateAction
 }

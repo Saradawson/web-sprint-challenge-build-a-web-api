@@ -1,7 +1,8 @@
 const express = require('express');
 
 const {
-    validateActionsId
+    validateActionsId,
+    validateAction
 } = require('./actions-middlware')
 
 const Actions = require('./actions-model');
@@ -18,6 +19,14 @@ router.get('/', (req, res, next) => {
 
 router.get('/:id', validateActionsId, (req, res) => {
     res.json(req.action)
+})
+
+router.post('/', validateAction, (req, res, next) =>{
+    Actions.insert(req.action)
+           .then(newAction => {
+                res.status(201).json(newAction)
+           })
+           .catch(next)
 })
 
 router.use((error, req, res, next) => { //eslint-disable-line
