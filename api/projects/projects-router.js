@@ -35,6 +35,22 @@ router.put('/:id', validateProjectId, validateProject, (req, res, next) => {
             .catch(next)
 })
 
+router.delete('/:id', validateProjectId, (req, res, next) => {
+    Projects.remove(req.params.id)
+            .then(() => {
+                res.json(req.project)
+            })
+            .catch(next)
+})
+
+router.get('/:id/actions', validateProjectId, (req, res, next) => {
+    Projects.getProjectActions(req.params.id)
+            .then(projectActions => {
+                res.json(projectActions);
+            })
+            .catch(next)
+})
+
 router.use((error, req, res, next) => { //eslint-disable-line
     res.status(error.status || 500).json({
         message: error.message,
