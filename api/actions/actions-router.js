@@ -1,5 +1,9 @@
 const express = require('express');
 
+const {
+    validateActionsId
+} = require('./actions-middlware')
+
 const Actions = require('./actions-model');
 
 const router = express.Router();
@@ -10,6 +14,10 @@ router.get('/', (req, res, next) => {
             res.json(actions)
            })
            .catch(next)
+})
+
+router.get('/:id', validateActionsId, (req, res) => {
+    res.json(req.action)
 })
 
 router.use((error, req, res, next) => { //eslint-disable-line
